@@ -13,43 +13,43 @@
  typedef  struct DATE
  {
     unsigned day, month, year;
- }DATE;
+ } DATE;
 
  typedef struct DURATION
  {
      unsigned hours, minutes, seconds;
- }DURATION;
+ } DURATION;
 
  typedef struct TC
  {
      DURATION time;
      unsigned increment;
- }TC;
+ } TC;
 
  typedef struct PGN
  {
     char event[LINES], site[LINES], white[LINES], black[LINES], opening [LINES];
     char moves[MAX_MOVES];
 
-    char ECO_CODE[3];
+    char ECO_CODE[4];
     unsigned round, plycount;
 
     DATE date;
     DURATION TotalGameDuration;
     TC TimeControl;
- }PGN;
+ } PGN;
 
  typedef struct NODE
  {
      PGN pgn;
      struct NODE *sig;
- }NODE;
+ } NODE;
 
  typedef struct ENHANCED_PGN
  {
      NODE *start;
      unsigned  numGames;
- }ENHANCED_PGN;
+ } ENHANCED_PGN;
 
  //Functions to scan durations and times
 

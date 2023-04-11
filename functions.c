@@ -11,7 +11,7 @@
 
 NODE *new(PGN *pgn)
 {
-    NODE *node = (NODE*)malloc(sizeof(NODE));
+    NODE *node = (NODE*) malloc(sizeof(NODE));
 
     strncpy(node->pgn.event, pgn->event, LINES);
     strncpy(node->pgn.site, pgn->site, LINES);
