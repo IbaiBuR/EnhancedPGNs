@@ -13,18 +13,18 @@
  typedef  struct DATE
  {
     unsigned day, month, year;
- } DATE;
+ }DATE;
 
  typedef struct DURATION
  {
      unsigned hours, minutes, seconds;
- } DURATION;
+ }DURATION;
 
  typedef struct TC
  {
      DURATION time;
      unsigned increment;
- } TC;
+ }TC;
 
  typedef struct PGN
  {
@@ -37,19 +37,19 @@
     DATE date;
     DURATION TotalGameDuration;
     TC TimeControl;
- } PGN;
+ }PGN;
 
  typedef struct NODE
  {
      PGN pgn;
      struct NODE *sig;
- } NODE;
+ }NODE;
 
  typedef struct ENHANCED_PGN
  {
      NODE *start;
      unsigned  numGames;
- } ENHANCED_PGN;
+ }ENHANCED_PGN;
 
  //Functions to scan durations and times
 
@@ -59,8 +59,17 @@
 
  //Functions to handle with PGN files using enhanced lists
 
- NODE *new(PGN * );
+ NODE *new(PGN * , NODE * );
+
  bool isEmpty(ENHANCED_PGN * );
+ bool contains(ENHANCED_PGN *, PGN *);
+
  void initList(ENHANCED_PGN * );
+ void deletePGN(ENHANCED_PGN *, PGN * );
+ void insert(ENHANCED_PGN * , PGN * );
+
+ unsigned numElementos(ENHANCED_PGN * );
+ int getPosition(ENHANCED_PGN * , PGN * );
+
 
 #endif //ENHACEDPGNS_TYPES_H

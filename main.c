@@ -4,5 +4,7 @@
 int main()
 {
     printf("\n--------Enhanced PGNs!--------\n");
+    char resp;
+
     return 0;
 }

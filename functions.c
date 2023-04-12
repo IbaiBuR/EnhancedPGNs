@@ -8,8 +8,7 @@
 #include <stdbool.h>
 #include "types.h"
 
-
-NODE *new(PGN *pgn)
+NODE * new(PGN *pgn, NODE *siguiente)
 {
     NODE *node = (NODE*) malloc(sizeof(NODE));
 
@@ -20,7 +19,7 @@ NODE *new(PGN *pgn)
     strncpy(node->pgn.opening, pgn->opening, LINES);
 
     strncpy(node->pgn.moves, pgn->moves, MAX_MOVES);
-    strncpy(node->pgn.ECO_CODE, pgn->ECO_CODE, 3);
+    strncpy(node->pgn.ECO_CODE, pgn->ECO_CODE, 4);
 
     node->pgn.round = pgn->round;
     node->pgn.plycount = pgn->plycount;
@@ -37,7 +36,7 @@ NODE *new(PGN *pgn)
     node->pgn.TimeControl.increment = pgn->TimeControl.increment;
 
 
-    node->sig = NULL;
+    node->sig = siguiente;
 
     return node;
 }
@@ -52,4 +51,89 @@ void initList(ENHANCED_PGN *list)
     list->start = NULL;
     list->numGames = 0;
 }
+
+unsigned numElementos(ENHANCED_PGN *list)
+{
+    return list->numGames;
+}
+
+void deletePGN(ENHANCED_PGN *list, PGN *pgn)
+{
+    NODE *actual = list->start;
+    NODE *anterior = NULL;
+
+    while(actual && &actual->pgn != pgn)
+    {
+        anterior = actual;
+        actual = actual->sig;
+    }
+
+    if(actual)
+    {
+        if(actual == list->start)
+        {
+            list->start = list->start->sig;
+        }
+        else
+        {
+            anterior->sig = actual->sig;
+        }
+
+        free(actual);
+        list->numGames--;
+    }
+}
+
+void insert(ENHANCED_PGN *list, PGN *pgn)
+{
+    NODE *create = new(pgn, NULL);
+
+    if(isEmpty(list))
+    {
+        list->start = create;
+    }
+    else
+    {
+        NODE *actual = list->start;
+
+        while(actual->sig)
+        {
+            actual = actual->sig;
+        }
+
+        actual->sig = create;
+    }
+
+    list->numGames++;
+}
+
+int getPosition(ENHANCED_PGN *list, PGN *pgn)
+{
+    NODE *actual = list->start;
+
+    int position = 0;
+    int result = -1;
+
+    while(actual && &actual->pgn != pgn)
+    {
+        actual = actual->sig;
+        position++;
+    }
+
+    if(actual)
+    {
+        result = position;
+    }
+
+    return result;
+}
+
+bool contains(ENHANCED_PGN *list, PGN *pgn)
+{
+    return getPosition(list, pgn) >= 0;
+}
+
+
+
+
 
